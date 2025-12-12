@@ -1,28 +1,58 @@
 "use client"
 
 import { useState } from "react"
-import { User, Bell, Shield, Save, Lock, Globe, Mail, Smartphone, AlertTriangle } from "lucide-react"
+import { User, Bell, Shield, AlertTriangle } from "lucide-react"
 import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 
 type Tab = "general" | "notifications" | "platform"
+
+const CustomSwitch = ({ 
+  checked, 
+  onCheckedChange, 
+  label, 
+  description 
+}: { 
+  checked: boolean, 
+  onCheckedChange: () => void, 
+  label: string, 
+  description?: string 
+}) => (
+  <div className="flex items-center justify-between gap-4 py-4">
+    <div className="space-y-0.5 flex-1 min-w-0">
+      <div className="font-medium text-base truncate">{label}</div>
+      {description && <div className="text-sm text-muted-foreground break-words">{description}</div>}
+    </div>
+    <button
+      onClick={onCheckedChange}
+      className={cn(
+        "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        checked ? "bg-primary" : "bg-input"
+      )}
+    >
+      <span
+        className={cn(
+          "pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform duration-200 ease-in-out",
+          checked ? "translate-x-5" : "translate-x-0"
+        )}
+      />
+    </button>
+  </div>
+)
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState<Tab>("general")
   const [isLoading, setIsLoading] = useState(false)
 
-  // Form states
   const [name, setName] = useState("Admin User")
   const [email, setEmail] = useState("admin@codechef-recruit.com")
   const [bio, setBio] = useState("Managing the community, one post at a time.")
   
-  // Toggles
   const [toggles, setToggles] = useState({
     emailAlerts: true,
     pushNotifs: false,
@@ -47,7 +77,6 @@ export default function SettingsPage() {
     setToggles(prev => {
       const newState = { ...prev, [key]: !prev[key] }
       
-      // Microinteraction toast for critical platform changes
       if (key === 'maintenanceMode' && newState.maintenanceMode) {
         toast.warning("Maintenance Mode Enabled", {
           description: "The platform is now inaccessible to regular users."
@@ -58,45 +87,12 @@ export default function SettingsPage() {
     })
   }
 
-  const CustomSwitch = ({ 
-    checked, 
-    onCheckedChange, 
-    label, 
-    description 
-  }: { 
-    checked: boolean, 
-    onCheckedChange: () => void, 
-    label: string, 
-    description?: string 
-  }) => (
-    <div className="flex items-center justify-between py-4">
-      <div className="space-y-0.5">
-        <div className="font-medium text-base">{label}</div>
-        {description && <div className="text-sm text-muted-foreground">{description}</div>}
-      </div>
-      <button
-        onClick={onCheckedChange}
-        className={cn(
-          "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-          checked ? "bg-primary" : "bg-input"
-        )}
-      >
-        <span
-          className={cn(
-            "pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform duration-200 ease-in-out",
-            checked ? "translate-x-5" : "translate-x-0"
-          )}
-        />
-      </button>
-    </div>
-  )
-
   return (
-    <div className="h-full overflow-y-auto p-6 space-y-8 scroll-smooth pb-20">
+    <div className="h-full overflow-y-auto p-4 md:p-6 space-y-6 md:space-y-8 scroll-smooth pb-20">
       <div className="flex items-center justify-between">
         <div className="space-y-1">
-          <h2 className="text-3xl font-bold tracking-tight">Settings</h2>
-          <p className="text-muted-foreground">
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight">Settings</h2>
+          <p className="text-sm md:text-base text-muted-foreground">
             Manage your profile and platform preferences.
           </p>
         </div>
@@ -105,31 +101,30 @@ export default function SettingsPage() {
         </Button>
       </div>
 
-      {/* Custom Tabs */}
-      <div className="flex space-x-1 rounded-xl bg-muted/50 p-1 backdrop-blur-sm">
+      <div className="grid grid-cols-3 gap-1 rounded-xl bg-muted/50 p-1 backdrop-blur-sm">
         {[
-          { id: "general", label: "General", icon: User },
-          { id: "notifications", label: "Notifications", icon: Bell },
-          { id: "platform", label: "Platform Controls", icon: Shield },
+          { id: "general", label: "General", mobileLabel: "General", icon: User },
+          { id: "notifications", label: "Notifications", mobileLabel: "Alerts", icon: Bell },
+          { id: "platform", label: "Platform Controls", mobileLabel: "Platform", icon: Shield },
         ].map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id as Tab)}
             className={cn(
-              "flex items-center justify-center gap-2 w-full rounded-lg px-3 py-2.5 text-sm font-medium leading-5 ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2 transition-all duration-200",
+              "flex items-center justify-center gap-2 w-full rounded-lg px-2 py-2 md:px-3 md:py-2.5 text-xs md:text-sm font-medium leading-5 ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2 transition-all duration-200",
               activeTab === tab.id
                 ? "bg-background text-foreground shadow-sm scale-[1.02]"
                 : "text-muted-foreground hover:bg-background/50 hover:text-foreground"
             )}
           >
-            <tab.icon className="h-4 w-4" />
-            {tab.label}
+            <tab.icon className="h-3 w-3 md:h-4 md:w-4" />
+            <span className="hidden md:inline">{tab.label}</span>
+            <span className="md:hidden">{tab.mobileLabel}</span>
           </button>
         ))}
       </div>
 
       <div className="grid gap-6">
-        {/* General Tab */}
         {activeTab === "general" && (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <Card className="shadow-sm">
@@ -178,7 +173,6 @@ export default function SettingsPage() {
           </div>
         )}
 
-        {/* Notifications Tab */}
         {activeTab === "notifications" && (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <Card className="shadow-sm">
@@ -210,7 +204,6 @@ export default function SettingsPage() {
           </div>
         )}
 
-        {/* Platform Tab */}
         {activeTab === "platform" && (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <Card className="shadow-sm border-l-4 border-l-primary">

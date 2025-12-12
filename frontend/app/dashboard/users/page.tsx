@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/resizable"
 import { UserList } from "@/components/users/user-list"
 import { UserDetail } from "@/components/users/user-detail"
-import { cn } from "@/lib/utils"
 
 function UsersPageContent() {
   const searchParams = useSearchParams()
@@ -28,7 +27,6 @@ function UsersPageContent() {
 
   return (
     <div className="h-full bg-background flex flex-col overflow-hidden">
-      {/* Mobile Layout: Stacked/Switched */}
       <div className="md:hidden h-full">
         {!selectedUserId ? (
           <UserList
@@ -43,7 +41,6 @@ function UsersPageContent() {
         )}
       </div>
 
-      {/* Desktop Layout: Resizable Split View */}
       <div className="hidden md:block h-full">
         <ResizablePanelGroup direction="horizontal" className="h-full items-stretch">
           <ResizablePanel

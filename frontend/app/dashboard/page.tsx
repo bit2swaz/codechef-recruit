@@ -1,14 +1,13 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import { Activity, CreditCard, Server, Users, AlertTriangle, ShieldAlert, UserPlus, MessageSquare, Zap } from "lucide-react"
+import { Activity, Server, Users, AlertTriangle, ShieldAlert, UserPlus, MessageSquare, Zap } from "lucide-react"
 import { getUsers } from "@/lib/api"
 import { StatsCard } from "@/components/dashboard/stats-card"
 import { OverviewChart } from "@/components/dashboard/overview-chart"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { toast } from "sonner"
@@ -28,7 +27,7 @@ export default function DashboardPage() {
   ]
 
   return (
-    <div className="h-full overflow-y-auto p-6 space-y-6 scroll-smooth pb-20">
+    <div className="h-full overflow-y-auto p-4 md:p-6 space-y-6 scroll-smooth pb-20">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-3xl font-bold tracking-tight text-foreground">
@@ -58,7 +57,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         {isLoading ? (
           Array.from({ length: 4 }).map((_, i) => (
             <Skeleton key={i} className="h-[120px] rounded-xl" />
@@ -93,8 +92,8 @@ export default function DashboardPage() {
         )}
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="col-span-4 shadow-sm hover:shadow-lg hover:scale-[1.005] transition-all duration-300">
+      <div className="grid gap-4 grid-cols-1 lg:grid-cols-7">
+        <Card className="col-span-1 lg:col-span-4 shadow-sm hover:shadow-lg hover:scale-[1.005] transition-all duration-300">
           <CardHeader>
             <CardTitle>User Growth & Engagement</CardTitle>
             <CardDescription>Daily active users vs new registrations over time.</CardDescription>
@@ -104,7 +103,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <div className="col-span-3 space-y-4">
+        <div className="col-span-1 lg:col-span-3 space-y-4">
           <Card className="h-full shadow-sm hover:shadow-lg hover:scale-[1.005] transition-all duration-300 flex flex-col">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -142,7 +141,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
         <Card className="hover:shadow-lg hover:scale-[1.02] transition-all duration-300 cursor-pointer">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-foreground">

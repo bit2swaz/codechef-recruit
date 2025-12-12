@@ -3,7 +3,6 @@ import { Post, User } from "@/types"
 const BASE_URL = "https://jsonplaceholder.typicode.com"
 
 async function fetcher<T>(url: string): Promise<T> {
-  // Artificial Delay
   await new Promise((resolve) => setTimeout(resolve, 800))
 
   const response = await fetch(`${BASE_URL}${url}`)
@@ -24,7 +23,7 @@ export async function getPosts(userId: number): Promise<Post[]> {
 }
 
 export async function deletePost(postId: number): Promise<void> {
-  await new Promise((resolve) => setTimeout(resolve, 800)) // Artificial delay
+  await new Promise((resolve) => setTimeout(resolve, 800))
   
   const response = await fetch(`${BASE_URL}/posts/${postId}`, {
     method: 'DELETE',

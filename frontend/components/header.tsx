@@ -1,6 +1,6 @@
 "use client"
 
-import { Bell, Search, User } from "lucide-react"
+import { Bell, Search } from "lucide-react"
 import Link from "next/link"
 import { toast } from "sonner"
 import { MobileSidebar } from "@/components/mobile-sidebar"
@@ -19,7 +19,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export function Header() {
   return (
-    <header className="h-16 border-b border-border/40 flex items-center justify-between px-6 bg-background/60 backdrop-blur-xl sticky top-0 z-50 transition-all duration-300">
+    <header className="h-16 border-b border-border/40 flex items-center justify-between px-4 md:px-6 bg-background/60 backdrop-blur-xl sticky top-0 z-50 transition-all duration-300">
       <div className="flex items-center gap-4 lg:gap-8">
         <MobileSidebar />
         <div className="hidden md:flex items-center gap-2 text-muted-foreground">
@@ -37,6 +37,9 @@ export function Header() {
             className="pl-9 bg-background/50 border-border/50 focus-visible:ring-primary/20 transition-all duration-300" 
           />
         </div>
+        <Button variant="ghost" size="icon" className="md:hidden text-muted-foreground">
+          <Search className="h-5 w-5" />
+        </Button>
 
         <div className="flex items-center gap-2">
           <Button 

@@ -11,10 +11,12 @@ export function MobileSidebar() {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
 
-  // Close sidebar when route changes
   useEffect(() => {
-    setOpen(false)
-  }, [pathname])
+    if (open) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setOpen(false)
+    }
+  }, [pathname, open])
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
